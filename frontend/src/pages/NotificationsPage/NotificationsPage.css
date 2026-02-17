@@ -1,0 +1,99 @@
+/* src/pages/NotificationsPage/NotificationsPage.css */
+.notifications-container {
+  max-width: 700px;
+}
+
+.page-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.request-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.request-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap; /* Wrap on small screens */
+  gap: 1rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 1rem 1.5rem;
+  box-shadow: var(--box-shadow-sm);
+}
+
+.request-profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.request-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border-color);
+}
+.request-avatar-icon {
+  font-size: 50px;
+  color: var(--text-secondary);
+}
+
+.request-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+.request-name:hover {
+  text-decoration: underline;
+}
+
+.request-username {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  display: block;
+}
+
+.request-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.request-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+.request-button.decline {
+  background-color: var(--card-bg);
+  color: var(--danger-color);
+  border-color: var(--danger-color);
+}
+.request-button.decline:hover {
+  background-color: #FEE2E2; /* Light red */
+}
+.request-button.accept {
+  background-color: var(--success-color);
+  border-color: var(--success-color);
+}
+.request-button.accept:hover {
+  opacity: 0.8;
+}
+
+/* Ensure these global classes are defined in index.css or ContentPage.css */
+.loading-text, .error-text {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 3rem 0;
+}
+.error-text {
+  color: var(--danger-color);
+}

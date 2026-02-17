@@ -1,0 +1,236 @@
+/* src/pages/FeedPage/FeedPage.css */
+
+.page-wrapper.light-theme { background-color: var(--main-bg); }
+.feed-page-container.feed-layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr) 280px; /* Adjusted column widths */
+  grid-template-areas: "sidebar-left main-content sidebar-right";
+  gap: 1.5rem;
+}
+
+/* Loading/Error (Ensure defined globally or here) */
+.full-page-loader, .loading-text, .error-text { /* ... */ }
+
+/* --- Left Sidebar --- */
+.feed-sidebar-left { grid-area: sidebar-left; position: sticky; top: 100px; height: fit-content; }
+.sidebar-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--border-radius); padding: 1rem; margin-bottom: 1.5rem; box-shadow: var(--box-shadow-sm); }
+
+.profile-card-mini { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; }
+.profile-avatar-mini { font-size: 2.5rem; color: var(--text-secondary); }
+.profile-name-mini { font-weight: 600; color: var(--text-primary); font-size: 1rem; display: block; }
+.view-profile-link { font-size: 0.8rem; color: var(--primary-color); }
+
+.quick-actions .action-button.small { padding: 0.6rem 0.8rem; font-size: 0.9rem; gap: 0.5rem; margin-bottom: 0.5rem; display: flex; align-items: center; border-radius: 6px; }
+.quick-actions .action-button:last-child { margin-bottom: 0; }
+.quick-actions .action-button.primary { /* Use global .button-primary */ background-color: var(--primary-color); color: #fff; }
+.quick-actions .action-button.primary:hover { background-color: var(--primary-hover); }
+.quick-actions .action-button.secondary { /* Use global .button-secondary */ background-color: var(--card-bg); color: var(--text-primary); border: 1px solid var(--border-color); }
+.quick-actions .action-button.secondary:hover { background-color: #F3F4F6; }
+
+.filter-nav h4 { font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); margin: 0 0 0.75rem 0; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 0.5rem;}
+.filter-button { display: block; width: 100%; text-align: left; padding: 0.6rem 0.8rem; margin-bottom: 0.25rem; background: none; border: none; border-radius: 6px; color: var(--text-secondary); font-size: 0.95rem; cursor: pointer; transition: background-color 0.2s, color 0.2s; }
+.filter-button:hover { background-color: #F3F4F6; color: var(--text-primary); }
+.filter-button.active { background-color: rgba(79, 70, 229, 0.1); color: var(--primary-color); font-weight: 500; }
+
+
+/* --- Main Feed Content --- */
+.feed-main-content { grid-area: main-content; min-width: 0; display: flex; flex-direction: column; }
+
+.feed-post-prompt {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 1rem 1.25rem;
+  box-shadow: var(--box-shadow-sm);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+.feed-post-prompt:hover { box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2); }
+.prompt-avatar { font-size: 2rem; color: var(--text-secondary); }
+.prompt-text { flex-grow: 1; color: var(--text-secondary); font-size: 1rem; }
+.prompt-icon-right { font-size: 1.25rem; color: var(--text-secondary); }
+
+
+/* --- Feed Card Base Styles (Apply to BlogCard, CodeReviewCard etc.) --- */
+.feed-post-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--border-radius); padding: 1.25rem 1.5rem; box-shadow: var(--box-shadow-sm); }
+.card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.85rem; }
+.author-avatar-small { font-size: 1.75rem; color: var(--text-secondary); }
+.author-name { font-weight: 600; color: var(--text-primary); }
+.post-type { margin-left: auto; color: var(--text-secondary); display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.8rem; background-color: var(--main-bg); padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid var(--border-color); }
+/* Specific colors for post types */
+.blog-card .post-type { color: var(--primary-color); background-color: rgba(79, 70, 229, 0.1); border-color: rgba(79, 70, 229, 0.2); }
+.review-card .post-type { color: var(--warning-color); background-color: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.2); }
+.project-card .post-type { color: var(--success-color); background-color: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); }
+
+.card-title { font-size: 1.3rem; font-weight: 700; margin: 0 0 0.5rem 0; }
+.card-title a { color: var(--text-primary); text-decoration: none; }
+.card-title a:hover { color: var(--primary-color); text-decoration: underline; }
+.card-excerpt { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.6; }
+.card-image-preview { width: 100%; max-height: 250px; object-fit: cover; border-radius: 6px; margin-bottom: 1rem; border: 1px solid var(--border-color); }
+.card-code-preview { background-color: var(--main-bg); border: 1px solid var(--border-color); padding: 0.75rem 1rem; border-radius: 6px; font-size: 0.85rem; overflow-x: auto; margin-bottom: 1rem; color: var(--text-primary); }
+.card-code-preview code { font-family: var(--font-code); }
+.card-read-more { font-size: 0.9rem; font-weight: 600; color: var(--primary-color); text-decoration: none; }
+.card-read-more:hover { text-decoration: underline; }
+
+
+/* --- Right Sidebar --- */
+.feed-sidebar-right { grid-area: sidebar-right; position: sticky; top: 100px; height: fit-content; }
+.feed-sidebar-right h4 { font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1rem; }
+.placeholder-text { font-size: 0.9rem; color: var(--text-secondary); }
+
+
+/* --- Responsive --- */
+@media screen and (max-width: 1024px) {
+  .feed-page-container.feed-layout { grid-template-columns: 240px minmax(0, 1fr); grid-template-areas: "sidebar-left main-content"; }
+  .feed-sidebar-right { display: none; }
+}
+@media screen and (max-width: 768px) {
+  .feed-page-container.feed-layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: "main-content" "sidebar-left"; padding: 1rem; gap: 1rem; }
+  .feed-sidebar-left { position: static; }
+}
+
+/* ADD THESE STYLES to src/pages/FeedPage/FeedPage.css */
+
+.create-post-prompt {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 1rem 1.25rem;
+  box-shadow: var(--box-shadow-sm);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  margin-bottom: 1.5rem; /* Space below the prompt */
+}
+.create-post-prompt:hover {
+  border-color: rgba(79, 70, 229, 0.4); /* Primary color border */
+  box-shadow: var(--box-shadow-md);
+}
+.prompt-avatar {
+  font-size: 2.2rem;
+  color: var(--text-secondary);
+}
+.prompt-text {
+  flex-grow: 1;
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+.prompt-button {
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  flex-shrink: 0; /* Don't let button shrink */
+}
+
+
+/* --- ADD THESE STYLES to src/pages/FeedPage/FeedPage.css --- */
+
+.feed-sidebar-right h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.placeholder-text {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.connection-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* Space between users */
+}
+
+.connection-item a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.connection-item a:hover {
+  background-color: var(--main-bg); /* Light gray hover */
+}
+
+.connection-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.connection-avatar-icon {
+  font-size: 36px;
+  color: var(--text-secondary);
+}
+
+.connection-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.connection-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.connection-username {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* --- ADD THESE STYLES to src/pages/FeedPage/FeedPage.css --- */
+
+.view-all-link {
+  display: block;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+.view-all-link:hover {
+  text-decoration: underline;
+}
+
+.follow-button-small {
+  margin-left: auto;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  background-color: transparent;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.follow-button-small:hover {
+  background-color: var(--primary-color);
+  color: #fff;
+}

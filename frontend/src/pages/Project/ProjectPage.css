@@ -1,0 +1,101 @@
+/* src/pages/Project/ProjectPage.css */
+
+.project-form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem 1.5rem;
+}
+
+.page-title { /* Reuse from global or define here */
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+.page-subtitle { /* Reuse from global */
+  font-size: 1.1rem;
+  text-align: center;
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.project-form {
+  background-color: var(--card-bg);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--box-shadow-md);
+}
+
+.form-error {
+  background-color: #FEE2E2; color: #B91C1C; border: 1px solid #FCA5A5;
+  padding: 0.75rem 1.25rem; border-radius: 6px; margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+.form-group input[type="text"],
+.form-group input[type="url"],
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: var(--input-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-family: var(--font-main);
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  line-height: 1.6;
+}
+.form-group input[type="text"]:focus,
+.form-group input[type="url"]:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.visibility-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.visibility-toggle label { margin: 0; font-size: 0.9rem; color: var(--text-secondary);}
+.vis-button {
+  display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.4rem 0.8rem;
+  border: 1px solid var(--border-color); background-color: var(--card-bg); color: var(--text-secondary);
+  border-radius: 6px; font-size: 0.85rem; cursor: pointer; transition: all 0.2s ease;
+}
+.vis-button:hover { background-color: #F3F4F6; }
+.vis-button.active {
+  border-color: var(--primary-color); background-color: rgba(79, 70, 229, 0.1);
+  color: var(--primary-color); font-weight: 500;
+}
+.vis-button svg { font-size: 0.9em; }
+
+.submit-button { padding: 0.75rem 1.5rem; font-size: 1rem; }
+.submit-button:disabled { background-color: var(--text-secondary); cursor: not-allowed; }
