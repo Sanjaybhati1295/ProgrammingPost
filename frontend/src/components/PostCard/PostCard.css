@@ -1,0 +1,122 @@
+/* src/components/PostCard/PostCard.css */
+.post-card-container {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow-sm);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.post-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+.post-avatar {
+  font-size: 2.5rem;
+  color: var(--text-secondary);
+}
+.post-author-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+.post-author-name:hover {
+  text-decoration: underline;
+}
+.post-timestamp {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+.post-type-badge {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--secondary-color);
+  background-color: rgba(236, 72, 153, 0.1);
+  border: 1px solid rgba(236, 72, 153, 0.2);
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+}
+/* Style blog type differently */
+.post-card-container.blog .post-type-badge {
+    color: var(--primary-color);
+    background-color: rgba(79, 70, 229, 0.1);
+    border-color: rgba(79, 70, 229, 0.2);
+}
+
+
+.post-card-content {
+  padding: 0 1.25rem 1rem 1.25rem;
+}
+.post-card-content a {
+  text-decoration: none;
+  color: inherit;
+}
+.post-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem 0;
+}
+.post-title:hover {
+  color: var(--primary-color);
+}
+.post-cover-image {
+  width: 100%;
+  max-height: 350px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
+}
+.post-excerpt {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.post-card-footer {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid var(--border-color);
+  background-color: var(--main-bg);
+}
+.footer-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  text-decoration: none; /* For Link */
+}
+.footer-button:hover {
+  background-color: #E5E7EB; /* Lighter gray */
+  color: var(--text-primary);
+}
+.like-button.liked {
+  color: var(--danger-color);
+}
+.like-button.liked svg {
+  transform: scale(1.1);
+}
+
+.feed-profile-image{
+  height:50px;
+  width:50px;
+  border-radius:50%;
+}

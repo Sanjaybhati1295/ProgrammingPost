@@ -1,0 +1,11 @@
+/* src/styles/colors.css */
+:root {
+  --primary-color: #0a66c2; /* LinkedIn-style blue */
+  --primary-dark: #004182;
+  --bg-color: #f3f2ef;
+  --card-bg: #ffffff;
+  --text-color: #212121;
+  --text-secondary: #5e5e5e;
+  --border-color: #e0e0e0;
+  --header-height: 55px;
+}

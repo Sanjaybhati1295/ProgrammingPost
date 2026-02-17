@@ -1,0 +1,17 @@
+/* src/components/NotificationBadge/NotificationBadge.css */
+.notification-badge {
+  position: absolute;
+  top: -5px;   /* Position it above the bell icon */
+  right: -8px; /* Position it to the right of the bell icon */
+  background-color: var(--danger-color); /* Bright red */
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--card-bg); /* Match navbar bg */
+}

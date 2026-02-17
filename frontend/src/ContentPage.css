@@ -1,0 +1,146 @@
+/* src/ContentPage.css */
+
+/* Shared container for BlogPage, StoriesPage etc. */
+.page-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem 1.5rem;
+}
+
+/* Shared Title Styles */
+.page-title {
+  font-size: 2.5rem; /* Adjusted size */
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+}
+
+.page-subtitle {
+  font-size: 1.1rem; /* Adjusted size */
+  text-align: center;
+  color: var(--text-secondary);
+  margin-bottom: 3rem; /* Adjusted spacing */
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Shared Grid Styles */
+.post-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem; /* Adjusted gap */
+}
+
+.post-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Shared Card Styles */
+.post-card {
+  background-color: var(--card-bg); /* White card */
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--box-shadow-sm); /* Use smaller shadow */
+  overflow: hidden;
+  transition: all 0.3s ease;
+  height: 100%; /* Ensure cards align height */
+  display: flex; /* Allow content to grow */
+  flex-direction: column;
+}
+
+.post-card:hover {
+  transform: translateY(-5px); /* Subtle hover lift */
+  box-shadow: var(--box-shadow-md); /* Slightly larger shadow on hover */
+  border-color: rgba(79, 70, 229, 0.3); /* Primary subtle border */
+}
+
+.post-card-image {
+  width: 100%;
+  height: 200px; /* Consistent image height */
+  object-fit: cover;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.post-card-content {
+  padding: 1.25rem; /* Slightly adjust padding */
+  flex-grow: 1; /* Allow content to push footer down */
+  display: flex;
+  flex-direction: column;
+}
+
+.post-card-category {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.post-card-title {
+  font-size: 1.2rem; /* Adjusted size */
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+/* Link specific styles (if needed) */
+.post-card-title a { color: inherit; text-decoration: none; }
+.post-card-title a:hover { color: var(--primary-color); }
+
+
+.post-card-excerpt {
+  font-size: 0.9rem; /* Adjusted size */
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  flex-grow: 1; /* Pushes author down */
+  /* Clamp text */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.post-card-author {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary); /* Lighter author text */
+  margin-top: auto; /* Push to bottom */
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--main-bg); /* Subtle separator */
+}
+
+/* --- Shared Loading/Error Styles --- */
+.loading-text,
+.error-text {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.error-text {
+  color: var(--danger-color); /* Use danger color variable */
+}
+
+
+/* --- Responsive Media Query --- */
+@media screen and (max-width: 768px) {
+  .page-container {
+    padding: 2rem 1rem 3rem 1rem;
+  }
+  .page-title {
+    font-size: 2rem; /* Adjust title size */
+  }
+  .page-subtitle {
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .post-card-grid {
+    grid-template-columns: 1fr; /* Stack cards on mobile */
+  }
+}

@@ -1,0 +1,40 @@
+.profile-uploader {
+  padding: 20px;
+  border: 1px solid var(--border-color, #dee2e6);
+  border-radius: var(--border-radius, 8px);
+  background: var(--card-bg, #fff);
+  margin-bottom: 10px;
+}
+
+.profile-uploader .form-group {
+  margin-bottom: 16px;
+}
+
+/* This is the container for the cropper */
+.cropper-container {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  max-width: 100%;
+  border: 1px dashed var(--border-color, #dee2e6);
+}
+
+/* Limit the size of the preview image in the cropper */
+.cropper-container img {
+  max-height: 400px;
+}
+
+/* The file input */
+#profile-pic-input {
+  font-size: 0.9rem;
+}
+
+/* Styles for the loading/error messages */
+.form-error {
+  color: #dc3545;
+  font-size: 0.9rem;
+}
+
+/* Make sure the crop grid shows up! */
+.ReactCrop__crop-selection {
+  border: 2px dashed var(--primary-color, #0a66c2);
+}
