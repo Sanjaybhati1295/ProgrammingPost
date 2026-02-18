@@ -44,33 +44,57 @@ const WriteBlogPage = () => {
     // --- Effect for fetching post data if editing ---
     useEffect(() => {
         if (postId && user) {
-            setFetchLoading(true);
-            const fetchPost = async () => {
-                try {
-                    const { data, error } = await supabase
-                        .from('Blogs')
-                        .select('*')
-                        .eq('id', postId)
-                        .eq('user_id', user.id)
-                        .single();
-                    if (error) throw error;
-                    if (data) {
-                        setContentType(data.content_type || 'blog');
-                        setTitle(data.title);
-                        setContent(data.content);
-                        setTags(Array.isArray(data.tags) ? data.tags.join(', ') : '');
-                        setCoverImageUrl(data.image_url);
-                        setVisibility(data.visibility || 'public');
+            if (postId && user && !content) {
+                setFetchLoading(true);
+                const fetchPost = async () => {
+                    try {
+                        const { data, error } = await supabase
+                            .from('Blogs')
+                            .select('*')
+                            .eq('id', postId)
+                            .eq('user_id', user.id)
+                            .single();
+                        if (error) throw error;
+                        if (data) {
+                            console.log("Raw tags from DB:", data.tags);
+                            console.log("Transformed tags for state:", Array.isArray(data.tags) ? data.tags.join(', ') : 'Not an array');
+                            const cleanContentFromDB = data.content ? data.content.replace(/\n/g, '') : '';
+                            setContentType(data.content_type || 'blog');
+                            setTitle(data.title);
+                            setContent(cleanContentFromDB);
+                            setTags(Array.isArray(data.tags) ? data.tags.join(', ') : '');
+                            setCoverImageUrl(data.image_url);
+                            setVisibility(data.visibility || 'public');
+                            if (data.tags) {
+                                let tagValue = data.tags;
+                                if (Array.isArray(tagValue)) {
+                                    setTags(tagValue.join(', '));
+                                } 
+                                else if (typeof tagValue === 'string' && tagValue.startsWith('[')) {
+                                    try {
+                                        const parsed = JSON.parse(tagValue);
+                                        setTags(parsed.join(', '));
+                                    } catch (e) {
+                                        setTags(tagValue.replace(/[\[\]"']/g, ''));
+                                    }
+                                } 
+                                else {
+                                    setTags(tagValue);
+                                }
+                            } else {
+                                setTags('');
+                            }
+                        }
+                    } catch (err) {
+                        setError(err.message);
+                    } finally {
+                        setFetchLoading(false);
                     }
-                } catch (err) {
-                    setError(err.message);
-                } finally {
-                    setFetchLoading(false);
-                }
-            };
-            fetchPost();
-        } else {
-            setFetchLoading(false);
+                };
+                fetchPost();
+            } else if (!postId) {
+                setFetchLoading(false);
+            }
         }
     }, [postId, user]);
 
@@ -135,7 +159,6 @@ const WriteBlogPage = () => {
                     editor.insertEmbed(range.index, 'image', publicUrl);
                     editor.setSelection(range.index + 1);
                 } catch (uploadError) {
-                    console.error('Editor Image Upload Error:', uploadError);
                     setError(`Editor image upload failed: ${uploadError.message}`);
                 }
             };
@@ -163,6 +186,9 @@ const WriteBlogPage = () => {
             syntax: {
                 highlight: text => hljs.highlightAuto(text).value,
             },
+            clipboard: {
+                matchVisual: false,
+            },
         };
     }, []); // Empty dependency array ensures this is created only once
 
@@ -173,19 +199,18 @@ const WriteBlogPage = () => {
         setLoading(true);
         setError(null);
 
+        const contentForDB = content.replace(/\n/g, '');
         const tagsArray = tags.split(',').map(tag => tag.trim()).filter(tag => tag);
         
         const postData = {
             user_id: user.id,
             title,
-            content,
+            content:contentForDB,
             content_type: contentType,
             tags: tagsArray,
             image_url: coverImageUrl,
             visibility: visibility,
             updated_at: new Date(),
-            
-            // 'user.name' does not exist by default. I'll assume 'user_metadata'
             author_username: user.user_metadata?.username || user.email, 
         };
 
@@ -296,13 +321,17 @@ const WriteBlogPage = () => {
                     {/* --- THE LARGE EDITOR --- */}
                     <div className="form-group-full quill-editor-group-full">
                         <ReactQuill 
-                          ref={quillRef} // Attach the ref
-                          theme="snow" 
-                          value={content} 
-                          onChange={setContent}
-                          modules={modules} // Use the full-featured modules
-                          placeholder={editorPlaceholder} 
-                          className="custom-quill-editor-full"
+                            ref={quillRef} 
+                            theme="snow" 
+                            value={content} 
+                            onChange={(value, delta, source, editor) => {
+                                if (source === 'user') {
+                                    setContent(value);
+                                }
+                            }}
+                            modules={modules} 
+                            placeholder={editorPlaceholder} 
+                            className="custom-quill-editor-full"
                         />
                     </div>
                 </form>

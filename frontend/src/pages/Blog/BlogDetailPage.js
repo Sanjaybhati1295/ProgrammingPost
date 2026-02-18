@@ -6,7 +6,7 @@ import NavBar from '../../components/NavBar/NavBar';
 import Footer from '../../components/Footer/Footer';
 import DOMPurify from 'dompurify';
 import './BlogPage.css'; 
-import { FaCalendarAlt, FaPencilAlt } from 'react-icons/fa';
+import { FaCalendarAlt,FaPencilAlt, FaTrash } from 'react-icons/fa';
 import toast, { Toaster } from 'react-hot-toast';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github-dark.css'; // MUST include a theme CSS
@@ -19,8 +19,9 @@ const BlogDetailPage = () => {
   const [error, setError] = useState(null);
   const { id: postId } = useParams();
   const { user } = useAuth(); 
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [modalConfig, setModalConfig] = useState({ title: '', message: '', onConfirm: () => {} });
 
-  // --- 1. Fetch Data ---
   useEffect(() => {
     const fetchPostDetails = async () => {
       if (!postId) {
@@ -37,7 +38,6 @@ const BlogDetailPage = () => {
 
         if (fetchError) throw fetchError;
         if (!data) throw new Error('Blog post not found.');
-
         if (data.tags && typeof data.tags === 'string') {
           try { data.tags = JSON.parse(data.tags); } catch (e) { data.tags = []; }
         }
@@ -54,16 +54,52 @@ const BlogDetailPage = () => {
     fetchPostDetails();
   }, [postId]);
 
-  // --- 2. Handle Sanitization ---
-  // We do this outside the JSX so useEffect can see it
+  const handleDeletePost = async () => {
+    try {
+      const { error } = await supabase
+        .from('Blogs')
+        .delete()
+        .eq('id', postId); 
+      if (error) throw error;
+
+      toast.success("Post deleted successfully!");
+      setTimeout(() => {
+        window.location.href = '/blogs'; 
+      }, 1000);
+    } catch (err) {
+      console.error("Error deleting post:", err);
+      toast.error("Failed to delete the post.");
+    }
+  };
+
+  const triggerPopup = (title, message, action) => {
+      setModalConfig({
+          title: title,
+          message: message,
+          onConfirm: () => {
+              action(); 
+              setShowConfirm(false);
+          }
+      });
+      setShowConfirm(true);
+  };
+
   const sanitizedContent = React.useMemo(() => {
-    return DOMPurify.sanitize(post?.content || '', {
-      ALLOWED_ATTR: ['style', 'class', 'src', 'alt', 'href', 'target'],
-      ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'h1', 'h2', 'h3', 'h4', 'code', 'pre', 'ul', 'ol', 'li', 'img', 'span']
-    });
+  if (!post?.content) return '';
+
+  const safeHTML = DOMPurify.sanitize(post.content, {
+    ALLOWED_ATTR: ['style', 'class', 'src', 'alt', 'href', 'target'],
+    ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'h1', 'h2', 'h3', 'h4', 'code', 'pre', 'ul', 'ol', 'li', 'img', 'span']
+  });
+
+  
+  return safeHTML
+      .replace(/\n/g, "") 
+      .replace(/<p><br><\/p>/g, "<br />") 
+      .replace(/(<br \/>)+$/g, "")
+      .trim();
   }, [post?.content]);
 
-  // --- 3. Trigger Syntax Highlighting ---
   useEffect(() => {
     if (!loading && post) {
       const nodes = document.querySelectorAll('.blog-content-body pre code');
@@ -121,17 +157,32 @@ const BlogDetailPage = () => {
             <span>
               <FaCalendarAlt /> Published : {formatDate(post.created_at)}
             </span>
+
             {isOwner && (
-                <Link to={`/write/${post.id}`}>
-                    <button className="edit-button"><FaPencilAlt /></button>
-                </Link>
-            )}
+                <div className="owner-actions">
+                  <Link to={`/write/${post.id}`}>
+                    <button className="icon-button edit edit-delete-btn">
+                      <FaPencilAlt style={{ marginRight: '8px', fontSize: '0.9em' }} />
+                      Edit
+                    </button>
+                  </Link>
+                  <button className="icon-button delete edit-delete-btn" 
+                      onClick={() => triggerPopup(
+                        "Delete Blog Post", 
+                        "Are you sure? This action cannot be undone.", 
+                        handleDeletePost
+                      )}
+                  >
+                    <FaTrash style={{ marginRight: '8px' }} /> Delete
+                  </button>
+                </div>
+              )}
           </div>
         </header>
 
-        <div
-          className="blog-content-body"
-          dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+        <div 
+          className="blog-content-body blog-content-display" 
+          dangerouslySetInnerHTML={{ __html: sanitizedContent }} 
         />
 
         {post.tags && post.tags.length > 0 && (
@@ -147,6 +198,29 @@ const BlogDetailPage = () => {
         <Link to="/blogs" className="button button-secondary back-link">&larr; Back to Blogs</Link>
       </div>
       <Footer />
+      {showConfirm && (
+          <div className="modal-overlay" onClick={() => setShowConfirm(false)}>
+              {/* e.stopPropagation prevents the modal from closing when you click inside the white box */}
+              <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                  <h3>{modalConfig.title}</h3>
+                  <p>{modalConfig.message}</p>
+                  <div className="modal-actions">
+                      <button 
+                          className="button button-secondary" 
+                          onClick={() => setShowConfirm(false)}
+                      >
+                          Cancel
+                      </button>
+                      <button 
+                          className="button button-danger" 
+                          onClick={modalConfig.onConfirm}
+                      >
+                          Confirm Delete
+                      </button>
+                  </div>
+              </div>
+          </div>
+      )}
     </div>
   );
 };

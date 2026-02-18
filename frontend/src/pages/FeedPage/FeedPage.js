@@ -105,6 +105,7 @@ const FeedPage = () => {
             };
             fetchFeed();
         }
+        
     }, [user?.id, authLoading, navigate, activeFeedFilter]);
 
     // useEffect to fetch connections for the sidebar
@@ -198,6 +199,16 @@ const FeedPage = () => {
 
     if (authLoading || !user) {
         return <div className="full-page-loader">Loading...</div>;
+    }
+
+    if (authLoading) {
+        return (
+        <div className="feed-layout">
+            <div className="main-content">
+            {[1, 2, 3].map(n => <PostSkeleton key={n} />)}
+            </div>
+        </div>
+        );
     }
     
     const username = currentUserProfile?.username || user?.email?.split('@')[0];

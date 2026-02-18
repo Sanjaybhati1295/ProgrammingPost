@@ -61,8 +61,14 @@ const HomePage = () => {
             try {
                 // Fetch latest public items for each category
                 const [blogsRes, projectsRes] = await Promise.all([
-                    supabase.from('Blogs').select('*, profiles(username)').eq('content_type', 'blog').order('created_at', { ascending: false }).limit(6),
-                    supabase.from('Blogs').select('*, profiles(username)').eq('content_type', 'story').order('created_at', { ascending: false }).limit(6)
+                    supabase.from('Blogs').select('*, profiles(username)')
+                    .eq('content_type', 'blog')
+                    .eq('is_public', true)
+                    .order('created_at', { ascending: false }).limit(6),
+                    supabase.from('Blogs').select('*, profiles(username)')
+                    .eq('content_type', 'story')
+                    .eq('is_public', true)
+                    .order('created_at', { ascending: false }).limit(6)
                 ]);
 
                 // Basic error check (improve as needed)
